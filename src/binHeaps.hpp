@@ -1,4 +1,4 @@
-#ifndef HEAPS_HPP
+z#ifndef HEAPS_HPP
 #define HEAPS_HPP
 /*
 23/03 -> interval constructor + heapify
@@ -13,7 +13,7 @@ template<typename T, typename Compare = std::less<T>>
 class binHeap{
     std::vector<T> data;
     Compare cmp;
-
+    int heapSize{0};
     void heapifyUp(size_t i);
     void heapify(size_t i){
     
@@ -44,24 +44,41 @@ class binHeap{
     binHeap() = default;
 
     template<typename It>
-        binHeap(It begin, It end){
-            data.assign(begin,end);
-            for(int i = static_cast<int>(data.size()/2 - 1) ; i >= 0 ; --i ){
-                heapify(i);
-            }
+    binHeap(It begin, It end){
+        data.assign(begin,end);
+        heapSize = end - begin;
+        for(int i = static_cast<int>(data.size()/2 - 1) ; i >= 0 ; --i ){
+            heapify(i);
+        }
     };
 
     void push(const T& value);
+
     void pop();
 
     const T& top() const;
 
     bool empty();
-    size_t size() const{ return data.size();};
+
+    size_t size() const{ return this->heapSize;};
 
     T valueIn (size_t i) const{
         return data[i];
     } 
+
+    void heapsort(){
+        /*
+            Crio uma Heap a partir de um vetor -> Troco o ultimo nó com o primeiro,
+             excluo o ultimo nó, chamo heapify a partir do primeiro, e repito o processo
+             ate que não tenham mais nós.
+        */
+        int n = this->heapSize;
+        for(int i = n; i > 1; --i){
+            std::swap(data[0],data[i]);
+            this->heapSize--;
+            heapify(0);
+        }
+    }
 };
 
 }
