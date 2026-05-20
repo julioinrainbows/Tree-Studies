@@ -51,9 +51,6 @@ namespace bst{
             this->size() = initializer.size();
 
         }
-
-
-        bst(bst)
         
         Node* find(int key) const{
             findI(root,key);
